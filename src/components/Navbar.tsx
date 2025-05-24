@@ -6,10 +6,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <nav className="h-16 p-4 border-b border-gray-200">
+    <nav className="h-14 p-2 border-b border-gray-200">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="text-2xl font-bold">
-          <h1 className="text-3xl lg:text-4xl font-medium bg-gradient-to-r from-purple-600 to-amber-600 bg-clip-text text-transparent tracking-tighter">
+          <h1 className="text-3xl lg:text-4xl font-medium tracking-tighter">
             DevTinder
           </h1>
         </div>
