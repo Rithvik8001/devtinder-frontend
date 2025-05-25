@@ -1,34 +1,40 @@
+import Logo from "../Logo";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { Link } from "react-router-dom";
-import Logo from "../Logo";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!email || !password || !confirmPassword) {
       toast.error("Please fill in all fields");
       return;
     }
-    toast.success("Login successful");
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    toast.success("Signup successful");
+    navigate("/dashboard");
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-56px)]">
-        <Card className="w-full max-w-md">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-56px)]">
+      <div className="w-full max-w-md">
+        <Card className="">
           <CardHeader>
             <CardTitle className="text-center flex flex-row items-center justify-center gap-2">
               <Logo />
               <h1 className="text-2xl font-medium tracking-tighter">
-                Login to DevTinder
+                Signup to DevTinder
               </h1>
             </CardTitle>
           </CardHeader>
@@ -49,16 +55,22 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button type="submit">Login</Button>
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Button type="submit">Signup</Button>
+              <div className="flex flex-col items-center justify-center gap-2">
+                <p className="text-sm text-center">
+                  Already have an account? <Link to="/login">Login</Link>
+                </p>
+              </div>
             </form>
-            <Separator className="my-4" />
-            {/* dont have an account? */}
-            <p className="text-sm text-center">
-              Don&apos;t have an account? <Link to="/signup">Register</Link>
-            </p>
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

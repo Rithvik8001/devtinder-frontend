@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import { Toaster } from "sonner";
+import Signup from "./components/Signup/Signup";
 
 export default function App() {
   return (
@@ -13,7 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<h1>Signup Page</h1>} />
+            <Route path="/signup" element={<Signup />} />
           </Route>
         </Routes>
       </BrowserRouter>
