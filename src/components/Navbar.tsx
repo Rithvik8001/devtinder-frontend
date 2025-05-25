@@ -12,11 +12,8 @@ export default function Navbar() {
     <nav className="h-14 p-2 border-b border-gray-200">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="text-2xl font-bold flex items-center gap-2">
-          <Logo />
           <Link to="/" className="cursor-pointer">
-            <h1 className={`text-3xl lg:text-4xl font-medium tracking-tighter`}>
-              DevTinder
-            </h1>
+            <Logo />
           </Link>
         </div>
         <div className="lg:hidden">
@@ -29,35 +26,51 @@ export default function Navbar() {
           </Button>
         </div>
         <div className="hidden lg:flex gap-4">
-          <Button
-            onClick={() => navigate("/login")}
-            variant="outline"
-            className="px-6 py-3"
-          >
-            Login
-          </Button>
-          <Button
-            onClick={() => navigate("/signup")}
-            variant="outline"
-            className="px-6 py-3"
-          >
-            Signup
-          </Button>
+          <Link to="login">
+            <Button
+              onClick={() => {
+                navigate("login");
+                console.log("Login clicked");
+              }}
+              variant="outline"
+              className="px-6 py-3 cursor-pointer hover:bg-gray-100"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link to="signup">
+            <Button
+              onClick={() => {
+                navigate("signup");
+                console.log("Signup clicked");
+              }}
+              variant="outline"
+              className="px-6 py-3 cursor-pointer hover:bg-gray-100"
+            >
+              Signup
+            </Button>
+          </Link>
         </div>
       </div>
       {/* Mobile menu */}
       <div className={`lg:hidden ${isOpen ? "block" : "hidden"}`}>
-        <div className="h-screen w-full bg-white">
+        <div className="fixed top-14 left-0 right-0 z-50 bg-white shadow-md">
           <div className="flex flex-col gap-2 p-4 h-full">
             <Button
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                navigate("login");
+                setIsOpen(false);
+              }}
               variant="outline"
               className="w-full py-3 cursor-pointer"
             >
               Login
             </Button>
             <Button
-              onClick={() => navigate("/signup")}
+              onClick={() => {
+                navigate("signup");
+                setIsOpen(false);
+              }}
               variant="outline"
               className="w-full py-3 cursor-pointer"
             >

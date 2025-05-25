@@ -6,23 +6,53 @@ import { Link } from "react-router-dom";
 import Logo from "../Logo";
 import { useState } from "react";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error("Please fill in all fields");
       return;
     }
+    try {
+      const response = await axios.post("http://localhost:3000/login", {
+        emailId: email,
+        password,
+      });
+      console.log(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 404) {
+          toast.error("User not found. Please check your email or sign up.");
+        } else if (error.response.status === 401) {
+          toast.error("Invalid credentials. Please try again.");
+        } else {
+          toast.error(
+            error.response.data?.message ||
+              error.response.data ||
+              "An unexpected error occurred."
+          );
+        }
+      } else {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "An error occurred during login."
+        );
+      }
+      return;
+    }
+
     toast.success("Login successful");
   };
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-56px)]">
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-56px)] p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center flex flex-row items-center justify-center gap-2">
@@ -42,16 +72,19 @@ export default function Login() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="placeholder:text-muted-foreground text-sm"
               />
               <Input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="placeholder:text-muted-foreground text-sm"
               />
               <Button type="submit">Login</Button>
             </form>
             <Separator className="my-4" />
+
             {/* dont have an account? */}
             <p className="text-sm text-center">
               Don&apos;t have an account? <Link to="/signup">Register</Link>

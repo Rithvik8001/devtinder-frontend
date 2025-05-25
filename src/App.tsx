@@ -12,10 +12,9 @@ export default function App() {
       <Toaster />
       <BrowserRouter basename="/">
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </div>
