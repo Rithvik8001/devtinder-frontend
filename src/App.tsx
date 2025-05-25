@@ -1,9 +1,22 @@
-import Navbar from "./components/Navbar";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import Home from "./components/Home/Home";
+import Login from "./components/Login/Login";
+import { Toaster } from "sonner";
 
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+      <Toaster />
+      <BrowserRouter basename="/">
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<h1>Signup Page</h1>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
