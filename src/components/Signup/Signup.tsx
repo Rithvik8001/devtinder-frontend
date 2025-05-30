@@ -48,8 +48,8 @@ export default function Signup() {
     setIsLoading(true);
 
     // Perform signup logic here
-    toast.success("Signup successful");
-    navigate("/dashboard");
+    toast.success("Signup successful, please login");
+    navigate("/login");
     setIsLoading(false);
   };
 

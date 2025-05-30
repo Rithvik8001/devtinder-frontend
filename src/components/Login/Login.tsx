@@ -7,10 +7,15 @@ import Logo from "../Logo";
 import { useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "@/utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,12 +23,18 @@ export default function Login() {
       toast.error("Please fill in all fields");
       return;
     }
+
     try {
-      const response = await axios.post("http://localhost:3000/login", {
-        emailId: email,
-        password,
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        "http://localhost:3000/login",
+        {
+          emailId: email,
+          password,
+        },
+        { withCredentials: true },
+      );
+      dispatch(addUser(response.data));
+      navigate("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 404) {
@@ -34,14 +45,14 @@ export default function Login() {
           toast.error(
             error.response.data?.message ||
               error.response.data ||
-              "An unexpected error occurred."
+              "An unexpected error occurred.",
           );
         }
       } else {
         toast.error(
           error instanceof Error
             ? error.message
-            : "An error occurred during login."
+            : "An error occurred during login.",
         );
       }
       return;
